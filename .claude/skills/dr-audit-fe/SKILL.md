@@ -1,5 +1,5 @@
 ---
-name: audit-fe
+name: dr-audit-fe
 description: "Audit completo del frontend del progetto. Rileva automaticamente lo stack usato, poi analizza dead code, conformità ai pattern e opportunità di performance. Non propone fix: produce un report strutturato per severità da usare come base per un plan."
 ---
 
