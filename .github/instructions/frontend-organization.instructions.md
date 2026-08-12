@@ -260,6 +260,60 @@ public string Status { get; set; }
 
 ---
 
+## Regola 7 — Autenticazione lato frontend
+
+### La login non si implementa nel frontend
+
+Il frontend contiene solo le maschere. Utenti, password e sessioni stanno nel backend. È l'errore concettuale più frequente: "aggiungi una login al frontend" non è un task di frontend.
+
+Conseguenza operativa: se il progetto prevede una login, **anche il progetto API deve adottare uno schema utenti**. Segui `minimal-api-architecture.instructions.md`, sezione "Autenticazione", che è la fonte unica per la scelta dello schema. Non decidere lo schema qui.
+
+### Domanda obbligatoria
+
+Se il frontend prevede una login e questo non è già stato dichiarato, **chiedi all'utente** prima di generare la struttura. Serve saperlo prima, non dopo: login significa route pubbliche e protette, uno store per l'utente corrente e un client HTTP configurato di conseguenza. Aggiungerlo in seguito comporta rifare il router e i servizi.
+
+### Cosa cambia nel frontend secondo lo schema scelto dall'API
+
+| Schema lato API | Cosa fa il frontend |
+|---|---|
+| Cookie `HttpOnly` | Configura il client HTTP perché invii le credenziali (`withCredentials` in axios, `credentials: 'include'` con `fetch`). **Nessun token da custodire**: al resto pensa il browser |
+| Bearer (token opachi) | Tiene il token e lo allega come intestazione `Authorization` a ogni chiamata, tramite un interceptor del client HTTP. Gestisce il rinnovo col refresh token |
+
+### Dove custodire il token, quando c'è
+
+- Token in **memoria** (store Pinia, variabile di modulo) — è il default
+- `localStorage` **solo** se non evitabile, e dichiarando il motivo: è leggibile da JavaScript, quindi un XSS lo espone
+- Mai token nel codice sorgente, mai in un file committato — segui `sensitive-data.instructions.md`
+
+### Collocazione dei file
+
+Segui la struttura della Regola 3: l'autenticazione è un dominio come gli altri.
+
+```
+src/
+  components/
+    auth/                 ← componenti specifici del dominio auth
+      LoginForm.vue
+      PasswordChangeForm.vue
+  views/
+    LoginView.vue         ← pagina di login (route pubblica)
+    UserProfileView.vue   ← profilo: email, cambio password
+  composables/
+    auth/
+      useAuth.ts          ← login, logout, stato di autenticazione
+  stores/
+    auth.ts               ← utente corrente, token se presente
+  services/
+    authService.ts        ← chiamate agli endpoint di autenticazione
+  router/
+    routes/
+      auth.ts             ← route pubbliche e guard sulle route protette
+```
+
+La route guard sta nel router, non nei componenti: un controllo sparso nelle view si dimentica alla prima view nuova.
+
+---
+
 ## Adattamento ad altri framework
 
 Le **Regole 1–2** (un componente = un file, generico vs specifico) e la struttura `shared/` vs `[domain]/` si applicano a qualsiasi framework. Le strutture cartelle delle **Regole 3–4** sono specifiche per Vue.js e WPF/MVVM. Per React, Angular, Blazor o altri: mantieni i principi di separazione, adatta i nomi cartella alle convenzioni del framework.
@@ -273,7 +327,9 @@ Le **Regole 1–2** (un componente = un file, generico vs specifico) e la strutt
 - [ ] Uno store Pinia per dominio — nessun store monolitico?
 - [ ] Nessuna logica di business nel code-behind XAML o nella `<script>` di una view?
 - [ ] Props Vue tipizzate esplicitamente? UserControl WPF usa DependencyProperty?
+- [ ] Se è prevista una login: lo schema è stato deciso lato API seguendo `minimal-api-architecture.instructions.md`, non qui?
+- [ ] Route guard nel router e non sparsa nelle view? Nessun token in `localStorage` senza motivo dichiarato?
 
 ---
 
-*Istruzione v1.0 - Frontend Organization (Vue + WPF) - 2026-04-16 — claude-sonnet-4-6*
+*Istruzione v1.1 - Frontend Organization (Vue + WPF) - 2026-08-12 — claude-opus-5*
