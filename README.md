@@ -19,7 +19,7 @@ Pacchetto di linee guida per progetti frontend: organizzazione di componenti e c
 - Vincoli della tipologia `vue-fe` (note del catalogo):
   - il progetto si crea con `npm create vue@latest` **prima** di installare il core, perché create-vue scrive propri `.editorconfig`, `.gitignore` e `.gitattributes`. La guida del core, partendo da una cartella vuota, installa invece il core per primo: `create-vue` scrive in una sottocartella nuova, ma la combinazione non è ancora stata provata sul campo;
   - lo script `lint` generato da create-vue usa `--fix`: modifica i file, quindi non vale come gate di verifica prima del push.
-- Rimandi ad altri pacchetti: `frontend-organization.instructions.md` cita `code-organization.instructions.md` e `sensitive-data.instructions.md` del core, e `minimal-api-architecture.instructions.md` (sezione "Autenticazione") di `dr-minimalapi`. `dr-minimalapi` non è una dipendenza dichiarata.
+- Rimandi ad altri pacchetti: `frontend-organization.instructions.md` cita `code-organization.instructions.md` e `sensitive-data.instructions.md` del core, e `minimal-api-architecture.instructions.md` (sezione "Autenticazione") di `dr-minimalapi`. `dr-minimalapi` **non** è una dipendenza dichiarata, ed è voluto: questo pacchetto è `appliesTo: node`, e una dipendenza dura porterebbe `Directory.Build.props` e `global.json` nella radice di un repository che non avrà mai una solution. Il rimando è condizionale al manifest e ha un ripiego, come prescrive `cross-package-references.instructions.md` del core.
 
 ## 🚀 Come si installa
 
@@ -87,4 +87,4 @@ Dal progetto host usa `/dr-segnala-miglioria <descrizione>` (su Copilot il promp
 
 ---
 
-*Documento aggiornato: Settembre 2026 — Revisione v1.0 — 2026-09-16 — claude-opus-5*
+*Documento aggiornato: Settembre 2026 — Revisione v1.1 — 2026-09-24 — claude-opus-5*

@@ -266,7 +266,16 @@ public string Status { get; set; }
 
 Il frontend contiene solo le maschere. Utenti, password e sessioni stanno nel backend. È l'errore concettuale più frequente: "aggiungi una login al frontend" non è un task di frontend.
 
-Conseguenza operativa: se il progetto prevede una login, **anche il progetto API deve adottare uno schema utenti**. Segui `minimal-api-architecture.instructions.md`, sezione "Autenticazione", che è la fonte unica per la scelta dello schema. Non decidere lo schema qui.
+Conseguenza operativa: se il progetto prevede una login, **anche il progetto API deve adottare uno schema utenti**. Lo schema lo decide l'API: qui trovi solo cosa aspettarti di dover gestire lato client.
+
+> **Dove sta la regola completa.** Controlla `.ai/dr-guidelines-packages.json`: se elenca `dr-minimalapi`, la fonte unica per la scelta dello schema è `minimal-api-architecture.instructions.md`, sezione "Autenticazione" — seguila e dichiaralo nell'output.
+>
+> Se non lo elenca — ed è il caso normale, perché un repository frontend è quasi sempre separato da quello dell'API — non scegliere lo schema da solo: **chiedi quale ha adottato l'API**. Qualunque sia la risposta, due requisiti valgono sempre lato client:
+>
+> - **Se il token può non passare dal codice del frontend, non ci passa.** Un cookie `HttpOnly` lo gestisce il browser: è la situazione da preferire quando è praticabile.
+> - **Se invece il client deve gestirlo, il token sta in memoria** e non in `localStorage` né in `sessionStorage`, dove sopravvive alla sessione ed è leggibile da qualsiasi script della pagina.
+>
+> Dichiara nell'output che stai applicando il ripiego e che lo schema va confermato lato API. Non ricostruire qui l'elenco degli schemi possibili: è una decisione dell'API e cambierebbe senza che questo file se ne accorga. Se il core `dr-guidelines` è installato, la convenzione che regola questi rimandi è in `cross-package-references.instructions.md`.
 
 ### Domanda obbligatoria
 
@@ -327,9 +336,9 @@ Le **Regole 1–2** (un componente = un file, generico vs specifico) e la strutt
 - [ ] Uno store Pinia per dominio — nessun store monolitico?
 - [ ] Nessuna logica di business nel code-behind XAML o nella `<script>` di una view?
 - [ ] Props Vue tipizzate esplicitamente? UserControl WPF usa DependencyProperty?
-- [ ] Se è prevista una login: lo schema è stato deciso lato API seguendo `minimal-api-architecture.instructions.md`, non qui?
+- [ ] Se è prevista una login: lo schema è stato deciso lato API e non qui — seguendo `minimal-api-architecture.instructions.md` se `dr-minimalapi` è nel manifest, altrimenti il ripiego della sezione "La login non si implementa nel frontend", dichiarando quale dei due si è applicato?
 - [ ] Route guard nel router e non sparsa nelle view? Nessun token in `localStorage` senza motivo dichiarato?
 
 ---
 
-*Istruzione v1.1 - Frontend Organization (Vue + WPF) - 2026-08-12 — claude-opus-5*
+*Istruzione v1.2 - Frontend Organization (Vue + WPF) - 2026-09-24 — claude-opus-5 — rimando a dr-minimalapi reso condizionale al manifest, con ripiego lato client (dr-guidelines#5)*
