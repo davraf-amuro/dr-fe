@@ -12,7 +12,7 @@ Pacchetto di linee guida per progetti frontend: organizzazione di componenti e c
 
 ## 🔗 Dipendenze e domini
 
-- Dipende da: nessuna dipendenza.
+- Dipende da: nessuna dipendenza dichiarata. Il core `dr-guidelines` arriva comunque per primo se manca dal manifest: è una dipendenza implicita di ogni pacchetto.
 - Richiesto da: `dr-ux-lcars` (temi LCARS), che dichiara `dr-fe` tra le sue dipendenze perché i suoi temi forniscono i token di `design-tokens.instructions.md`.
 - Applicabilità nel catalogo: `appliesTo: node`.
 - Dominio del catalogo: `web-frontend` (Frontend web, kind `node`). È l'unico pacchetto del dominio.
@@ -89,4 +89,4 @@ Dal progetto host usa `/dr-segnala-miglioria <descrizione>` (su Copilot il promp
 
 ---
 
-*Documento aggiornato: Ottobre 2026 — Revisione v1.4 — 2026-10-11 — claude-opus-5-5*
+*Documento aggiornato: Ottobre 2026 — Revisione v1.5 — 2026-10-11 — claude-opus-5-5*
