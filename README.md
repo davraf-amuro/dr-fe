@@ -1,18 +1,19 @@
 # dr-fe
 
-Pacchetto di linee guida per progetti frontend: organizzazione di componenti e cartelle (Vue, WPF/MVVM) e skill di audit del frontend.
+Pacchetto di linee guida per progetti frontend: organizzazione di componenti e cartelle (Vue, WPF/MVVM), contratto dei token di design per i temi e skill di audit del frontend.
 
 ## 🧩 Cosa contiene
 
 | File | Tipo | A cosa serve |
 |------|------|--------------|
 | `.github/instructions/frontend-organization.instructions.md` | Istruzione | Impone un componente per file, cartelle `shared/` o `[dominio]/` in base alla dipendenza dal dominio, alberi di cartelle per Vue (store Pinia per dominio, composable, services) e per WPF/MVVM, props Vue tipizzate e `DependencyProperty` in WPF. La Regola 7 vieta di implementare la login nel frontend: lo schema utenti si sceglie lato API e il frontend si adegua (cookie `HttpOnly` o token bearer in memoria). |
+| `.github/instructions/design-tokens.instructions.md` | Istruzione | Fissa i nomi dei token di design che ogni tema deve fornire (`--c-bg`, `--c-ink`, `--c-federal`/`--c-on-federal`, …) senza fissarne i valori, le soglie di contrasto WCAG in chiaro e in scuro, il tema scelto con `data-theme` su `<html>` e l'esposizione a Tailwind v4 con `@theme inline`. Un tema nuovo cambia i valori, non i nomi: i componenti restano identici. |
 | `.claude/skills/dr-audit-fe/SKILL.md` | Skill Claude Code | `/dr-audit-fe [focus]` rileva lo stack da `package.json` e analizza dead code, conformità ai pattern (React, Vue, Angular) e performance. Produce un report per severità (`ERROR`, `WARNING`, `INFO`) e non modifica nessun file. |
 
 ## 🔗 Dipendenze e domini
 
 - Dipende da: nessuna dipendenza.
-- Richiesto da: nessuno. Nessun pacchetto del catalogo dichiara `dr-fe` tra le sue dipendenze.
+- Richiesto da: `dr-ux-lcars` (temi LCARS), che dichiara `dr-fe` tra le sue dipendenze perché i suoi temi forniscono i token di `design-tokens.instructions.md`.
 - Applicabilità nel catalogo: `appliesTo: node`.
 - Dominio del catalogo: `web-frontend` (Frontend web, kind `node`). È l'unico pacchetto del dominio.
 - Tipologie di progetto che lo suggeriscono: `vue-fe` (Frontend Vue 3 + Vite + TypeScript), in `suggestedPackages`.
@@ -49,6 +50,7 @@ Nota: la forma breve `irm https://raw.githubusercontent.com/... | iex` è un'alt
 | Percorso nel progetto host | Contenuto |
 |----------------------------|-----------|
 | `.github/instructions/frontend-organization.instructions.md` | Copia dell'istruzione sull'organizzazione del frontend |
+| `.github/instructions/design-tokens.instructions.md` | Copia dell'istruzione sul contratto dei token di design |
 | `.claude/skills/dr-audit-fe/` | Cartella della skill, copiata per intero (`SKILL.md`) |
 | `.ai/dr-guidelines-packages.json` | Voce `dr-fe` in `installed`: `package`, `installedAt` (data) e `commit` (commit di `main` installato). Il file si crea se manca. |
 
@@ -87,4 +89,4 @@ Dal progetto host usa `/dr-segnala-miglioria <descrizione>` (su Copilot il promp
 
 ---
 
-*Documento aggiornato: Ottobre 2026 — Revisione v1.2 — 2026-10-09 — claude-opus-5-5*
+*Documento aggiornato: Ottobre 2026 — Revisione v1.3 — 2026-10-11 — claude-opus-5-5*
