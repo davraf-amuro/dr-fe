@@ -54,6 +54,7 @@ Valgono per ogni tema, **in chiaro e in scuro**:
 | Coppia | Soglia minima |
 |---|---|
 | `--c-ink`, `--c-ink-muted`, `--c-neutral` su `--c-bg` e su `--c-surface` | 4.5:1 |
+| `--c-federal`, `--c-alert`, `--c-ok` usati come testo (link, badge, pulsanti senza fondo) su `--c-bg` e su `--c-surface` | 4.5:1 |
 | Ogni `--c-on-*` sul proprio fondo | 4.5:1 |
 | `--c-control-border` su `--c-bg` e su `--c-surface` | 3:1 |
 | `--c-federal` (anello di focus) su `--c-bg` e su `--c-surface` | 3:1 |
