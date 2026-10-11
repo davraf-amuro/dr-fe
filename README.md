@@ -20,7 +20,18 @@ Pacchetto di linee guida per progetti frontend: organizzazione di componenti e c
 - Vincoli della tipologia `vue-fe` (note del catalogo):
   - il progetto si crea con `npm create vue@latest` **prima** di installare il core, perché create-vue scrive propri `.editorconfig`, `.gitignore` e `.gitattributes`. La guida del core, partendo da una cartella vuota, installa invece il core per primo: `create-vue` scrive in una sottocartella nuova, ma la combinazione non è ancora stata provata sul campo;
   - lo script `lint` generato da create-vue usa `--fix`: modifica i file, quindi non vale come gate di verifica prima del push.
-- Rimandi ad altri pacchetti: `frontend-organization.instructions.md` cita `code-organization.instructions.md` e `sensitive-data.instructions.md` del core, e `minimal-api-architecture.instructions.md` (sezione "Autenticazione") di `dr-minimalapi`. `dr-minimalapi` **non** è una dipendenza dichiarata, ed è voluto: questo pacchetto è `appliesTo: node`, e una dipendenza dura porterebbe `Directory.Build.props` e `global.json` nella radice di un repository che non avrà mai una solution. Il rimando è condizionale al manifest e ha un ripiego, come prescrive `cross-package-references.instructions.md` del core.
+- `dr-minimalapi` **non** è una dipendenza dichiarata, ed è voluto: questo pacchetto è `appliesTo: node`, e una dipendenza dura porterebbe `Directory.Build.props` e `global.json` nella radice di un repository che non avrà mai una solution. Il rimando è condizionale al manifest e ha un ripiego, come prescrive `cross-package-references.instructions.md` del core.
+
+File di altri pacchetti citati dalle istruzioni e dalla skill:
+
+| File citato | Chi lo cita | Pacchetto che lo porta |
+|-------------|-------------|------------------------|
+| `code-organization`, `sensitive-data`, `cross-package-references` (`.instructions.md`) | `frontend-organization` | `dr-guidelines` (core) |
+| `no-hardcoded-values.instructions.md` | `design-tokens` | `dr-guidelines` (core) |
+| `.github/copilot-instructions.md` | Skill `dr-audit-fe`, fase 0 | `dr-guidelines` (core) |
+| `minimal-api-architecture.instructions.md` (sezione "Autenticazione") | `frontend-organization` (Regola 7), rimando condizionale | `dr-minimalapi` |
+
+Pacchetti suggeriti (`suggests` del catalogo): `dr-minimalapi`. L'installer non li installa e non chiede nulla: a fine installazione stampa una riga `[sugg]` con il motivo per ognuno che manca dal manifest.
 
 ## 🚀 Come si installa
 
@@ -54,9 +65,9 @@ Nota: la forma breve `irm https://raw.githubusercontent.com/... | iex` è un'alt
 | `.claude/skills/dr-audit-fe/` | Cartella della skill, copiata per intero (`SKILL.md`) |
 | `.ai/dr-guidelines-packages.json` | Voce `dr-fe` in `installed`: `package`, `installedAt` (data) e `commit` (commit di `main` installato). Il file si crea se manca. |
 
-Nessuna modifica a `CLAUDE.md` né ai file di configurazione del core (`.editorconfig`, `.gitignore`, `.gitattributes`, `.claude/settings.json`, `.mcp.json`).
+Il pacchetto non modifica `CLAUDE.md` né i file di configurazione (`.editorconfig`, `.gitignore`, `.gitattributes`, `.claude/settings.json`, `.mcp.json`). Li scrive il core, solo se viene installato insieme perché mancava dal manifest.
 
-`LICENSE`, `.github/ISSUE_TEMPLATE/` e `dr-fe-install.ps1` restano in questo repo: non vengono copiati.
+Non vengono copiati `README.md`, `LICENSE`, `.github/ISSUE_TEMPLATE/` e l'installer `dr-fe-install.ps1`.
 
 Senza `-Update` un file già presente viene saltato (`[SKIP]`). Per la skill vale la cartella: se `.claude/skills/dr-audit-fe/` esiste già, viene saltata per intero.
 
@@ -80,13 +91,13 @@ Un file rimosso da questo repo resta nel progetto host: l'installer copia, non c
 
 Non correggere la copia nel progetto host: si perde al primo `-Update`.
 
-Dal progetto host usa `/dr-segnala-miglioria <descrizione>` (su Copilot il prompt `.github/prompts/dr-segnala-miglioria.prompt.md` del core). Apre la issue in questo repo.
+Dal progetto host usa `/dr-file-feedback <descrizione>` (su Copilot il prompt `.github/prompts/dr-file-feedback.prompt.md` del core). La issue si apre in questo repo, dopo la tua conferma esplicita di titolo e corpo.
 
-| Modello | Quando |
-|---------|--------|
-| `.github/ISSUE_TEMPLATE/miglioria.md` | Richiesta evolutiva |
-| `.github/ISSUE_TEMPLATE/problema.md` | Malfunzionamento |
+| Modello del repo | Quando usarlo |
+|------------------|---------------|
+| `.github/ISSUE_TEMPLATE/miglioria.md` | Richiesta evolutiva: regola nuova, precisazione, estensione del pacchetto |
+| `.github/ISSUE_TEMPLATE/problema.md` | Malfunzionamento: regola sbagliata, ambigua o che porta l'agente fuori strada |
 
 ---
 
-*Documento aggiornato: Ottobre 2026 — Revisione v1.5 — 2026-10-11 — claude-opus-5-5*
+*Revisione v1.6 — 2026-10-11 21:00 — claude-opus-5-5*
