@@ -1,6 +1,6 @@
 # Piano: preset di tema FE "K.I.T.T." (cruscotto Knight Rider) con token e componenti di guscio
 Data: 2026-10-14
-Stato: IN CORSO — fasi 8 e 9 in attesa dell'Ondata 3 (fase 10 parziale)
+Stato: IN CORSO — Fase 9 parziale: prova finale dell'installer dopo il merge di davraf-amuro/dr-guidelines#25
 Issue: davraf-amuro/dr-fe#3
 
 ## Obiettivo
@@ -49,8 +49,8 @@ Da chiudere con l'utente nella Fase 0, prima di qualsiasi scrittura fuori da `.a
 - [x] `dr-fe/.github/instructions/design-tokens.instructions.md` — Regola 8 (ripiego reduced-motion per animazione, nessuna dipendenza solo per il tema, font), checklist, versione
 - [x] `dr-fe/README.md` — riga/nota sulla Regola 8 e sui temi disponibili (solo se la versione del README la richiede)
 - [x] `dr-ux-kitt/` (nuovo repo locale, poi `davraf-amuro/dr-ux-kitt`) — `dr-ux-kitt-install.ps1`, `README.md`, `LICENSE`, `.github/ISSUE_TEMPLATE/`, `.github/instructions/kitt-theme.instructions.md`, `.github/prompts/dr-ux-kitt-apply.prompt.md`, `scripts/kitt-contrast.mjs`
-- [ ] `dr-guidelines/scaffolding-catalog.json` — voce pacchetto `dr-ux-kitt`, `vue-fe.optionalPackages`, `updatedAt` (Fase 8, Ondata 2)
-- [ ] `dr-guidelines/README.md` e `dr-guidelines/docs/` dove elencano i pacchetti — solo righe che citano i pacchetti
+- [x] `dr-guidelines/scaffolding-catalog.json` — voce pacchetto `dr-ux-kitt`, `vue-fe.optionalPackages`, `updatedAt` (Fase 8, PR dr-guidelines#25)
+- [x] `dr-guidelines/README.md` e `dr-guidelines/docs/` dove elencano i pacchetti — solo righe che citano i pacchetti (`docs/onboarding.md` escluso: appartiene a dr-guidelines#19)
 - [x] `dr-fe/.ai/plans/2026-10-14-dr-fe-3-tema-kitt/plan.md` — avanzamento del piano
 
 ### Perimetro negativo
@@ -156,8 +156,8 @@ Ogni fase è un passo atomico. Le fasi marcate "ramo" si eseguono solo se la dec
 - **Su divergenza**: STOP — scrivi `⚠️ Divergenza Fase 7: <cosa>` in plan.md, non procedere
 
 ### Fase 8: Catalogo e riferimenti in dr-guidelines (Ondata 2)
-- **Stato**: [ ]
-- **Esito**: rimandata — Ondata 3, in attesa di dr-guidelines#18/#20/#19 in main (non eseguita dall'esecutore su indicazione dell'orchestratore).
+- **Stato**: [x]
+- **Esito** (2026-10-14): eseguita dopo #18 e #20 in `main` (worktree `wt-dr-guidelines-kitt`, branch `issues/dr-fe-3-catalogo-kitt`, PR davraf-amuro/dr-guidelines#25). Diff catalogo: nuova voce `dr-ux-kitt`, `optionalPackages` di `vue-fe`, `updatedAt` 2026-10-14. `catalog-guard` replicato in locale con pwsh: exit 0, "Catalogo allineato: 9 pacchetti, 5 tipologie". README (tabella, dipendenze, 9 repo Public), `card-dr-guidelines` v2.11, `guida-nuova-soluzione` v1.6, `test-progetto-host` v2.5 (nota datata del 2026-09-22 lasciata com'era), `bozza-manuale-installazione` v1.14. `docs/onboarding.md` non toccato (dr-guidelines#19). Non toccata `readme-structure.instructions.md`, che cita ancora "8 pacchetti": fuori Scope, da riallineare a parte.
 - **Precondizione**: dr-guidelines#18 integrata in `main` (verificare con `gh pr view 18 --repo davraf-amuro/dr-guidelines --json state`); `scaffolding-catalog.json` riletto dalla versione di `main` aggiornata
 - **File**: `dr-guidelines/scaffolding-catalog.json`, `dr-guidelines/README.md`, `dr-guidelines/docs/*` (solo le righe che elencano i pacchetti)
 - **Operazione**: EDIT
@@ -167,8 +167,9 @@ Ogni fase è un passo atomico. Le fasi marcate "ramo" si eseguono solo se la dec
 - **Su divergenza**: STOP — scrivi `⚠️ Divergenza Fase 8: <cosa>` in plan.md, non procedere
 
 ### Fase 9: Prova dell'installer reale
-- **Stato**: [ ]
-- **Esito**: rimandata insieme alla Fase 8: l'installer (`Install-DrPackage`) legge `scaffolding-catalog.json` di dr-guidelines `main`, dove `dr-ux-kitt` non c'e' ancora; serve anche il repo remoto `dr-ux-kitt` (creato dall'esecutore su autorizzazione esplicita dell'utente, con push di main) e il catalogo pubblicato.
+- **Stato**: [~] parziale — prova finale dopo il merge
+- **Esito** (2026-10-14): repo `davraf-amuro/dr-ux-kitt` pubblico (commit `c749131` e `18578f6`). Prova massima possibile prima del merge: cartella vuota in scratchpad (`git init`), `Install-DrPackage -PackageName dr-ux-kitt` reale (libreria del worktree, catalogo del branch precaricato in `$Script:Catalog`, clonazione reale di `dr-fe` e `dr-ux-kitt` da GitHub). Esito: core `dr-guidelines` (dipendenza implicita), poi `dr-fe` (`[dep]`, con `design-tokens`), poi `dr-ux-kitt` (`kitt-theme.instructions.md`, `dr-ux-kitt-apply.prompt.md`, `scripts/kitt-contrast.mjs`); manifest con `dr-guidelines`, `dr-fe` `c40ff09`, `dr-ux-kitt` `c749131`; seconda esecuzione: "Dipendenze: tutte gia' installate", tutto `[SKIP]`; `node scripts/kitt-contrast.mjs --help` exit 0. Non provato: il percorso con catalogo letto da `raw.githubusercontent.com/.../main` e installer scaricato con `gh api` (richiedono la PR #25 fusa) e `-Update` che non sovrascrive file dell'host.
+- **Da lanciare dopo il merge** (cartella vuota con `git init`): `& ([scriptblock]::Create((gh api repos/davraf-amuro/dr-ux-kitt/contents/dr-ux-kitt-install.ps1 -H "Accept: application/vnd.github.raw" | Out-String)))`, poi di nuovo lo stesso comando (atteso: tutto `[SKIP]`) e con `-Update` dopo aver modificato un file dell'host non del pacchetto (atteso: file dell'host intatto).
 - **Precondizione**: Fase 8 completata; conferma esplicita dell'utente per `gh repo create davraf-amuro/dr-ux-kitt` e per il push iniziale (via `/dr-promote-to` o comando dell'utente: l'esecutore non fa `git push`); catalogo pubblicato su `main`
 - **File**: nessuno del Scope (cartella vuota di prova)
 - **Operazione**: EDIT
@@ -178,9 +179,9 @@ Ogni fase è un passo atomico. Le fasi marcate "ramo" si eseguono solo se la dec
 - **Su divergenza**: STOP — scrivi `⚠️ Divergenza Fase 9: <cosa>` in plan.md, non procedere
 
 ### Fase 10: Riallinea la documentazione al contenuto reale
-- **Stato**: [ ]
-- **Esito**: eseguita per `dr-fe/README.md` (v1.7: Regola 8, nota su dr-ux-kitt) e `dr-ux-kitt/README.md` (v1.0); restano `dr-guidelines/README.md` e `docs/` (con la Fase 8). Fase 10 non spuntata finche' non e' completa.
-- **Precondizione**: Fasi 1–9 completate
+- **Stato**: [x]
+- **Esito** (2026-10-14): `dr-fe/README.md` v1.8 e `dr-ux-kitt/README.md` v1.1 (frase "con una modifica separata" sostituita con il rimando alla PR dr-guidelines#25; da riscrivere come "nel catalogo" dopo il merge); README e docs del core riallineati in Fase 8.
+- **Precondizione**: Fasi 1–8 e 10 completate, Fase 9 parziale (prova finale post-merge)
 - **File**: `dr-ux-kitt/README.md`, `dr-fe/README.md`, `dr-guidelines/README.md`, `dr-guidelines/docs/*` (righe pertinenti)
 - **Operazione**: EDIT
 - **Azione**: con `/dr-professor` riallineare README e docs ai file effettivamente creati (tabella file, dipendenze, installazione, avviso di marchio D3, font D4, Regola 8 di dr-fe), seguendo `doc-versioning.instructions.md` per revisione e footer
@@ -189,7 +190,8 @@ Ogni fase è un passo atomico. Le fasi marcate "ramo" si eseguono solo se la dec
 - **Su divergenza**: STOP — scrivi `⚠️ Divergenza Fase 10: <cosa>` in plan.md, non procedere
 
 ### Fase 11: Verifica finale in contesto isolato
-- **Stato**: [ ]
+- **Stato**: [x]
+- **Esito** (2026-10-14): verifica isolata con sub-agente general-purpose senza contesto: ESITO CONFORME, nessuna correzione necessaria. Note minori: `readme-structure.instructions.md` cita ancora "8 pacchetti" (fuori Scope, da riallineare a parte); i footer di prompt e istruzione citano `dr-mailroom-fe` (prassi uguale a LCARS, solo nel footer); le frasi sullo stato del catalogo nei README di dr-fe e dr-ux-kitt vanno riscritte dopo il merge. `Stato: COMPLETATO` solo dopo il merge di dr-guidelines#25 e la prova finale della Fase 9.
 - **Precondizione**: Fase 10 completata; tutte le fasi precedenti `[x]`
 - **File**: tutti i file dello Scope (sola lettura) e `plan.md`
 - **Operazione**: EDIT
@@ -199,16 +201,16 @@ Ogni fase è un passo atomico. Le fasi marcate "ramo" si eseguono solo se la dec
 - **Su divergenza**: STOP — scrivi `⚠️ Divergenza Fase 11: <cosa>` in plan.md, non dichiarare completato
 
 ## Criteri di verifica finale
-- [ ] `design-tokens.instructions.md` ha la Regola 8 e le Regole 1–7 invariate; nessun valore di colore nel file
-- [ ] D1–D9 annotate con data nella Fase 0 e coerenti con i file creati
-- [ ] Lo script dei contrasti dà exit 0 sui valori della issue e 1/2/2 sui tre casi negativi; tutti i rapporti coincidono (±0.01) con quelli del Contesto
-- [ ] Nessuna coppia testo sotto 4.5:1 né bordo/focus sotto 3:1, in tema chiaro e scuro, console e LED compresi
-- [ ] Ogni animazione dei sorgenti ha un ripiego `prefers-reduced-motion: reduce` e con reduced-motion 0 animazioni decorative risultano attive (prova Playwright a 375 e 1280 px)
-- [ ] Voce attiva e stati riconoscibili senza colore (spia "ON", peso, `aria-current`)
-- [ ] Nessun colore letterale nei componenti dei sorgenti; token propri con prefisso dedicato
-- [ ] Nessuna nuova dipendenza npm oltre ai font scelti in D4, e solo su conferma dell'utente
-- [ ] Catalogo valido e `catalog-guard` verde; diff del catalogo limitato alla voce `dr-ux-kitt`, a `optionalPackages` di `vue-fe` e a `updatedAt`; Fase 8 eseguita solo dopo l'integrazione di dr-guidelines#18
-- [ ] Installer reale: `dr-fe` prima, poi il pacchetto; seconda esecuzione tutta `[SKIP]`; nessun file dell'host sovrascritto senza diff e conferma
-- [ ] `dr-ux-lcars`, installer comuni, `dr-mailroom-fe` `main` e il branch dell'utente non toccati
-- [ ] Ogni file condiviso compatibile Claude Code + GitHub Copilot (frontmatter `applyTo`, nessuna feature esclusiva di un solo tool)
-- [ ] Verifica finale eseguita in contesto isolato (`/dr-verify-plan`) senza divergenze aperte
+- [x] `design-tokens.instructions.md` ha la Regola 8 e le Regole 1–7 invariate; nessun valore di colore nel file
+- [x] D1–D9 annotate con data nella Fase 0 e coerenti con i file creati
+- [x] Lo script dei contrasti dà exit 0 sui valori della issue e 1/2/2 sui tre casi negativi; tutti i rapporti coincidono (±0.01) con quelli del Contesto
+- [x] Nessuna coppia testo sotto 4.5:1 né bordo/focus sotto 3:1, in tema chiaro e scuro, console e LED compresi
+- [x] Ogni animazione dei sorgenti ha un ripiego `prefers-reduced-motion: reduce` e con reduced-motion 0 animazioni decorative risultano attive (prova Playwright a 375 e 1280 px)
+- [x] Voce attiva e stati riconoscibili senza colore (spia "ON", peso, `aria-current`)
+- [x] Nessun colore letterale nei componenti dei sorgenti; token propri con prefisso dedicato
+- [x] Nessuna nuova dipendenza npm oltre ai font scelti in D4, e solo su conferma dell'utente
+- [x] Catalogo valido e `catalog-guard` verde; diff del catalogo limitato alla voce `dr-ux-kitt`, a `optionalPackages` di `vue-fe` e a `updatedAt`; Fase 8 eseguita solo dopo l'integrazione di dr-guidelines#18
+- [~] Installer reale: `dr-fe` prima, poi il pacchetto; seconda esecuzione tutta `[SKIP]`; nessun file dell'host sovrascritto senza diff e conferma (parziale: prova con installer reale eseguita con catalogo del branch; rimane la prova dopo il merge, Fase 9)
+- [x] `dr-ux-lcars`, installer comuni, `dr-mailroom-fe` `main` e il branch dell'utente non toccati
+- [x] Ogni file condiviso compatibile Claude Code + GitHub Copilot (frontmatter `applyTo`, nessuna feature esclusiva di un solo tool)
+- [x] Verifica finale eseguita in contesto isolato (`/dr-verify-plan`) senza divergenze aperte

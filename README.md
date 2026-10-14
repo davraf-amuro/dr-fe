@@ -14,7 +14,7 @@ Pacchetto di linee guida per progetti frontend: organizzazione di componenti e c
 
 - Dipende da: nessuna dipendenza dichiarata. Il core `dr-guidelines` arriva comunque per primo se manca dal manifest: è una dipendenza implicita di ogni pacchetto.
 - Richiesto da: `dr-ux-lcars` (temi LCARS), che dichiara `dr-fe` tra le sue dipendenze perché i suoi temi forniscono i token di `design-tokens.instructions.md`
-- Anche `dr-ux-kitt` (tema K.I.T.T.) si appoggia a `dr-fe` per gli stessi motivi: la dipendenza è descritta nel suo README e diventa dichiarata nel catalogo del core con una modifica separata.
+- Anche `dr-ux-kitt` (tema K.I.T.T.) si appoggia a `dr-fe` per gli stessi motivi: la dipendenza è descritta nel suo README e dichiarata nel catalogo del core (voce `dr-ux-kitt` nella PR davraf-amuro/dr-guidelines#25).
 - Applicabilità nel catalogo: `appliesTo: node`.
 - Dominio del catalogo: `web-frontend` (Frontend web, kind `node`). È l'unico pacchetto del dominio.
 - Tipologie di progetto che lo suggeriscono: `vue-fe` (Frontend Vue 3 + Vite + TypeScript), in `suggestedPackages`.
@@ -101,4 +101,4 @@ Dal progetto host usa `/dr-file-feedback <descrizione>` (su Copilot il prompt `.
 
 ---
 
-*Revisione v1.7 — 2026-10-14 17:00 — claude-opus-5-5*
+*Revisione v1.8 — 2026-10-14 18:30 — claude-sonnet-5-5*
