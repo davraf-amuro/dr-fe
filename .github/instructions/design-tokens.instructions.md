@@ -127,6 +127,14 @@ Cambiare tema non cambia l'API dei componenti condivisi (props, slot, eventi): c
 
 ---
 
+## Regola 8 — Animazioni, dipendenze e font di un tema
+
+- Ogni animazione decorativa ha un ripiego dentro `@media (prefers-reduced-motion: reduce)` che la ferma in uno **stato significativo** (indicatore acceso in posizione neutra, barra piena a metà, valore statico): non spenta e non nascosta. Vale in aggiunta all'azzeramento globale della Regola 5, che da solo lascia l'elemento in un fotogramma arbitrario.
+- Un tema non introduce dipendenze npm proprie. Fanno eccezione i font, dichiarati nell'istruzione del tema e installati solo dopo conferma esplicita dell'utente.
+- Lo stato attivo o semantico non è mai affidato al solo bagliore o al solo colore: si aggiunge testo, spia, peso o forma (vale la Regola 3).
+
+---
+
 ## ✅ Checklist pre-commit
 
 - [ ] Nessun colore letterale fuori da `tokens.css`?
@@ -135,7 +143,8 @@ Cambiare tema non cambia l'API dei componenti condivisi (props, slot, eventi): c
 - [ ] Rapporti di contrasto misurati e annotati in `tokens.css` dopo ogni modifica di colore?
 - [ ] Stati mai affidati al solo colore?
 - [ ] Token propri del tema con prefisso dedicato e nomi di ruolo?
+- [ ] Ogni animazione decorativa con ripiego in `prefers-reduced-motion: reduce`, nessuna dipendenza npm oltre ai font confermati?
 
 ---
 
-*Istruzione v1.0 - Design Tokens - 2026-10-11 — claude-opus-5-5 — contratto dei token estratto dal frontend di prova dr-mailroom-fe (dr-guidelines#13, #14)*
+*Istruzione v1.1 - Design Tokens - 2026-10-14 — claude-opus-5-5 — contratto dei token estratto dal frontend di prova dr-mailroom-fe (dr-guidelines#13, #14); Regola 8 (dr-fe#3)*

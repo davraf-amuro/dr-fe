@@ -7,13 +7,14 @@ Pacchetto di linee guida per progetti frontend: organizzazione di componenti e c
 | File | Tipo | A cosa serve |
 |------|------|--------------|
 | `.github/instructions/frontend-organization.instructions.md` | Istruzione | Impone un componente per file, cartelle `shared/` o `[dominio]/` in base alla dipendenza dal dominio, alberi di cartelle per Vue (store Pinia per dominio, composable, services) e per WPF/MVVM, props Vue tipizzate e `DependencyProperty` in WPF. La Regola 7 vieta di implementare la login nel frontend: lo schema utenti si sceglie lato API e il frontend si adegua (cookie `HttpOnly` o token bearer in memoria). |
-| `.github/instructions/design-tokens.instructions.md` | Istruzione | Fissa i nomi dei token di design che ogni tema deve fornire (`--c-bg`, `--c-ink`, `--c-federal`/`--c-on-federal`, …) senza fissarne i valori, le soglie di contrasto WCAG in chiaro e in scuro, il tema scelto con `data-theme` su `<html>` e l'esposizione a Tailwind v4 con `@theme inline`. Un tema nuovo cambia i valori, non i nomi: i componenti restano identici. |
+| `.github/instructions/design-tokens.instructions.md` | Istruzione | Fissa i nomi dei token di design che ogni tema deve fornire (`--c-bg`, `--c-ink`, `--c-federal`/`--c-on-federal`, …) senza fissarne i valori, le soglie di contrasto WCAG in chiaro e in scuro, il tema scelto con `data-theme` su `<html>` e l'esposizione a Tailwind v4 con `@theme inline`. Un tema nuovo cambia i valori, non i nomi: i componenti restano identici. La Regola 8 vale per ogni tema: ogni animazione decorativa ha un ripiego in `prefers-reduced-motion: reduce`, nessuna dipendenza npm propria del tema (solo i font, su conferma) e lo stato non è mai solo bagliore o colore. |
 | `.claude/skills/dr-audit-fe/SKILL.md` | Skill Claude Code | `/dr-audit-fe [focus]` rileva lo stack da `package.json` e analizza dead code, conformità ai pattern (React, Vue, Angular) e performance. Produce un report per severità (`ERROR`, `WARNING`, `INFO`) e non modifica nessun file. |
 
 ## 🔗 Dipendenze e domini
 
 - Dipende da: nessuna dipendenza dichiarata. Il core `dr-guidelines` arriva comunque per primo se manca dal manifest: è una dipendenza implicita di ogni pacchetto.
-- Richiesto da: `dr-ux-lcars` (temi LCARS), che dichiara `dr-fe` tra le sue dipendenze perché i suoi temi forniscono i token di `design-tokens.instructions.md`.
+- Richiesto da: `dr-ux-lcars` (temi LCARS), che dichiara `dr-fe` tra le sue dipendenze perché i suoi temi forniscono i token di `design-tokens.instructions.md`
+- Anche `dr-ux-kitt` (tema K.I.T.T.) si appoggia a `dr-fe` per gli stessi motivi: la dipendenza è descritta nel suo README e diventa dichiarata nel catalogo del core con una modifica separata.
 - Applicabilità nel catalogo: `appliesTo: node`.
 - Dominio del catalogo: `web-frontend` (Frontend web, kind `node`). È l'unico pacchetto del dominio.
 - Tipologie di progetto che lo suggeriscono: `vue-fe` (Frontend Vue 3 + Vite + TypeScript), in `suggestedPackages`.
@@ -100,4 +101,4 @@ Dal progetto host usa `/dr-file-feedback <descrizione>` (su Copilot il prompt `.
 
 ---
 
-*Revisione v1.6 — 2026-10-11 21:00 — claude-opus-5-5*
+*Revisione v1.7 — 2026-10-14 17:00 — claude-opus-5-5*
