@@ -1,6 +1,6 @@
 # Piano: preset di tema FE "K.I.T.T." (cruscotto Knight Rider) con token e componenti di guscio
 Data: 2026-10-14
-Stato: IN CORSO — Fase 9 parziale: prova finale dell'installer dopo il merge di davraf-amuro/dr-guidelines#25
+Stato: COMPLETATO — Fase 9 chiusa il 2026-10-16 con la prova dopo il merge (installer via `gh api`, catalogo da `main`)
 Issue: davraf-amuro/dr-fe#3
 
 ## Obiettivo
@@ -167,7 +167,8 @@ Ogni fase è un passo atomico. Le fasi marcate "ramo" si eseguono solo se la dec
 - **Su divergenza**: STOP — scrivi `⚠️ Divergenza Fase 8: <cosa>` in plan.md, non procedere
 
 ### Fase 9: Prova dell'installer reale
-- **Stato**: [~] parziale — prova finale dopo il merge
+- **Stato**: [x] — prova finale dopo il merge eseguita il 2026-10-16
+- **Esito finale** (2026-10-16): cartella vuota con `git init`, installer scaricato con `gh api` (catalogo e libreria da `main`). Prima esecuzione: `[dep] dr-guidelines` (core implicito), `[dep] dr-fe` (`design-tokens`), poi `dr-ux-kitt` (`kitt-theme.instructions.md`, `dr-ux-kitt-apply.prompt.md`, `scripts/kitt-contrast.mjs`). Manifest: `dr-guidelines` `48a7fe1`, `dr-fe` `30ce311`, `dr-ux-kitt` `18578f6`. Seconda esecuzione: "Dipendenze: tutte gia' installate", nessun file scritto. `-Update` dopo aver modificato `.gitignore` e un file dell'host: entrambi intatti, `[=] scripts/kitt-contrast.mjs invariato`. `node scripts/kitt-contrast.mjs --help` exit 0.
 - **Esito** (2026-10-14): repo `davraf-amuro/dr-ux-kitt` pubblico (commit `c749131` e `18578f6`). Prova massima possibile prima del merge: cartella vuota in scratchpad (`git init`), `Install-DrPackage -PackageName dr-ux-kitt` reale (libreria del worktree, catalogo del branch precaricato in `$Script:Catalog`, clonazione reale di `dr-fe` e `dr-ux-kitt` da GitHub). Esito: core `dr-guidelines` (dipendenza implicita), poi `dr-fe` (`[dep]`, con `design-tokens`), poi `dr-ux-kitt` (`kitt-theme.instructions.md`, `dr-ux-kitt-apply.prompt.md`, `scripts/kitt-contrast.mjs`); manifest con `dr-guidelines`, `dr-fe` `c40ff09`, `dr-ux-kitt` `c749131`; seconda esecuzione: "Dipendenze: tutte gia' installate", tutto `[SKIP]`; `node scripts/kitt-contrast.mjs --help` exit 0. Non provato: il percorso con catalogo letto da `raw.githubusercontent.com/.../main` e installer scaricato con `gh api` (richiedono la PR #25 fusa) e `-Update` che non sovrascrive file dell'host.
 - **Da lanciare dopo il merge** (cartella vuota con `git init`): `& ([scriptblock]::Create((gh api repos/davraf-amuro/dr-ux-kitt/contents/dr-ux-kitt-install.ps1 -H "Accept: application/vnd.github.raw" | Out-String)))`, poi di nuovo lo stesso comando (atteso: tutto `[SKIP]`) e con `-Update` dopo aver modificato un file dell'host non del pacchetto (atteso: file dell'host intatto).
 - **Precondizione**: Fase 8 completata; conferma esplicita dell'utente per `gh repo create davraf-amuro/dr-ux-kitt` e per il push iniziale (via `/dr-promote-to` o comando dell'utente: l'esecutore non fa `git push`); catalogo pubblicato su `main`
@@ -210,7 +211,7 @@ Ogni fase è un passo atomico. Le fasi marcate "ramo" si eseguono solo se la dec
 - [x] Nessun colore letterale nei componenti dei sorgenti; token propri con prefisso dedicato
 - [x] Nessuna nuova dipendenza npm oltre ai font scelti in D4, e solo su conferma dell'utente
 - [x] Catalogo valido e `catalog-guard` verde; diff del catalogo limitato alla voce `dr-ux-kitt`, a `optionalPackages` di `vue-fe` e a `updatedAt`; Fase 8 eseguita solo dopo l'integrazione di dr-guidelines#18
-- [~] Installer reale: `dr-fe` prima, poi il pacchetto; seconda esecuzione tutta `[SKIP]`; nessun file dell'host sovrascritto senza diff e conferma (parziale: prova con installer reale eseguita con catalogo del branch; rimane la prova dopo il merge, Fase 9)
+- [x] Installer reale: `dr-fe` prima, poi il pacchetto; seconda esecuzione tutta `[SKIP]`; nessun file dell'host sovrascritto senza diff e conferma (prova dopo il merge eseguita il 2026-10-16, Fase 9)
 - [x] `dr-ux-lcars`, installer comuni, `dr-mailroom-fe` `main` e il branch dell'utente non toccati
 - [x] Ogni file condiviso compatibile Claude Code + GitHub Copilot (frontmatter `applyTo`, nessuna feature esclusiva di un solo tool)
 - [x] Verifica finale eseguita in contesto isolato (`/dr-verify-plan`) senza divergenze aperte
